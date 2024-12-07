@@ -21,10 +21,13 @@ async def is_subscribed(filter, client, update):
     except UserNotParticipant:
         return False
 
-    if not member.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER]:
-        return False
-    else:
+    if member.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.MEMBER]:
         return True
+    elif member.status == ChatMemberStatus.RESTRICTED:
+        # User has requested to join the channel
+        return True
+    else:
+        return False   
 
 async def encode(string):
     string_bytes = string.encode("ascii")
